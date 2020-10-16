@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
-import { axiosWithAuth } from '../utils/axiosWithAuth';
 const initialColor = {
   color: "",
   code: { hex: "" }
@@ -11,7 +10,6 @@ const ColorList = ({ colors, updateColors }) => {
 
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-  const { id } = useParams();
   const history = useHistory();
   const token = window.localStorage.getItem("token");
 
@@ -21,14 +19,14 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const saveEdit = e => {
-    e.preventDefault();
-    axios.put(`http://localhost:5000/api/colors/${id}`, 
-    data.colorToEdit, {
+
+    axios.put(`http://localhost:5000/api/colors/${colorToEdit.id}`, 
+    colorToEdit, {
     headers: {
       Authorization: token
     }
   })
-  .then((res) => console.log(res))
+  .then((res) => console.log(colorToEdit))
   
   }
 
@@ -37,9 +35,8 @@ const ColorList = ({ colors, updateColors }) => {
       headers: {
         Authorization: token
       },
-
     })
-    .then(console.log(color))
+    .then(document. location. reload())
   };
 
   return (
